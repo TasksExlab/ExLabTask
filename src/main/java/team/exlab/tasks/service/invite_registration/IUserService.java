@@ -1,10 +1,9 @@
 package team.exlab.tasks.service.invite_registration;
 
 import team.exlab.tasks.model.dto.UserDto;
-
-import java.util.Optional;
+import team.exlab.tasks.model.dto.UserDtoResponse;
 
 public interface IUserService {
-    Optional<UserDto> create(UserDto userDto);
+    UserDtoResponse create(UserDto userDto);
 }
 

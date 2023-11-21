@@ -9,8 +9,8 @@ import team.exlab.tasks.model.repository.InviteRepository;
 import team.exlab.tasks.model.repository.RoleRepository;
 import team.exlab.tasks.model.repository.UserRepository;
 import team.exlab.tasks.model.repository.WorkspaceRepository;
-import team.exlab.tasks.exeption.RegistrationException;
-import team.exlab.tasks.exeption.WorkspaceException;
+import team.exlab.tasks.exception.RegistrationException;
+import team.exlab.tasks.exception.WorkspaceException;
 
 import java.time.LocalDateTime;
 

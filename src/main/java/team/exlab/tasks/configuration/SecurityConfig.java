@@ -13,9 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import team.exlab.tasks.service.invite_registration.impl.UserDetailService;
 
 import static org.springframework.security.config.Customizer.withDefaults;
-import static team.exlab.tasks.util.PathUrlUtil.INVITE_SEND;
-import static team.exlab.tasks.util.PathUrlUtil.LOGIN;
-import static team.exlab.tasks.util.PathUrlUtil.LOGIN_ADMIN;
+import static team.exlab.tasks.util.PathUrlUtil.*;
 
 @Configuration
 @EnableWebSecurity
@@ -38,7 +36,7 @@ public class SecurityConfig {
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(LOGIN_ADMIN, INVITE_SEND).hasAuthority("ADMIN")
-                        .requestMatchers(LOGIN).permitAll()
+                        .requestMatchers(LOGIN, REGISTRATION).permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .build();

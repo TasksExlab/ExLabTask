@@ -1,4 +1,4 @@
-package team.exlab.tasks.exeption;
+package team.exlab.tasks.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

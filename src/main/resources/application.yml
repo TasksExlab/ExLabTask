@@ -5,7 +5,7 @@ spring:
      datasource:
           url: jdbc:postgresql://localhost:5432/exlab_tasks_db
           username: postgres
-          password: passowrd
+          password: 1234
           driver-class-name: org.postgresql.Driver
      jpa:
           properties:

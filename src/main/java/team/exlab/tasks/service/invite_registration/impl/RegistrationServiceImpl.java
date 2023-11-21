@@ -7,38 +7,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import team.exlab.tasks.api.response.BaseResponse;
+import team.exlab.tasks.exception.InviteException;
+import team.exlab.tasks.exception.RegistrationException;
 import team.exlab.tasks.model.dto.UserDto;
-import team.exlab.tasks.model.mapper.UserConverter;
 import team.exlab.tasks.model.entity.InviteEntity;
 import team.exlab.tasks.model.entity.UserEntity;
+import team.exlab.tasks.model.mapper.UserConverter;
 import team.exlab.tasks.model.repository.InviteRepository;
 import team.exlab.tasks.model.repository.UserRepository;
 import team.exlab.tasks.model.repository.WorkspaceRepository;
 import team.exlab.tasks.service.invite_registration.IRegistrationService;
-import team.exlab.tasks.exeption.InviteException;
-import team.exlab.tasks.exeption.RegistrationException;
 
-import static team.exlab.tasks.util.MessagesConstants.LINK_HAS_ALREADY_BEEN_ACTIVATED;
-import static team.exlab.tasks.util.MessagesConstants.PASSWORD_DONT_MATCH;
-import static team.exlab.tasks.util.MessagesConstants.SUCCESSFUL_REGISTRATION;
-import static team.exlab.tasks.util.MessagesConstants.USER_IS_ALREADY_REGISTERED;
-import static team.exlab.tasks.util.MessagesConstants.USER_WITH_THIS_EMAIL_OR_UNIQUE_ID_NOT_FOUND;
+import static team.exlab.tasks.util.MessagesConstants.*;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class RegistrationServiceImpl implements IRegistrationService {
-
     private final UserRepository userRepository;
-
     private final InviteRepository inviteRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final UserConverter userConverter;
-
     private final ValidationServiceImpl validationService;
-
     private final WorkspaceRepository workspaceRepository;
 
     //    private final WorkspaceDetailsRepository workspaceDetailsRepository;
@@ -53,7 +43,7 @@ public class RegistrationServiceImpl implements IRegistrationService {
         }
 
         if (validationService.isExistWorkspace(workspaceId)
-                && (invite.getActivated()
+            && (invite.getActivated()
                 && validationService.isExpiredDateOfInvite(
                 invite.getDateOfExpireInvite()))) {
 
@@ -67,19 +57,21 @@ public class RegistrationServiceImpl implements IRegistrationService {
     public ResponseEntity<?> createNewUser(String workspaceId, String uniqueIdentifier,
                                            UserDto newUserDto)
             throws RegistrationException, InviteException {
-        InviteEntity invite = inviteRepository.getInviteEntityByEmailAndUniqueIdentifier(
-                        newUserDto.getEmail(), uniqueIdentifier)
-                .orElseThrow(
-                        () -> new InviteException(USER_WITH_THIS_EMAIL_OR_UNIQUE_ID_NOT_FOUND));
 
-        if (validationService.isExistUser(newUserDto.getEmail(),
+        InviteEntity invite = inviteRepository.getInviteEntityByEmailAndUniqueIdentifier(
+                newUserDto.getEmail(),
+                uniqueIdentifier
+        ).orElseThrow(() -> new InviteException(USER_WITH_THIS_EMAIL_OR_UNIQUE_ID_NOT_FOUND));
+
+        if (validationService.isExistUser(
+                newUserDto.getEmail(),
                 USER_IS_ALREADY_REGISTERED)
-                && validationService.isExistWorkspace(workspaceId)
-                && invite.getActivated()
-                && validationService.isExpiredDateOfInvite(invite.getDateOfExpireInvite())
-                && validationService.isProcessingAllowed(
-                newUserDto.getIsAgreeUserToProcOfPersData())
-                && validEqualityPasswords(newUserDto.getPassword(), newUserDto.getPasswordConfirm())) {
+            && validationService.isExistWorkspace(workspaceId)
+            && invite.getActivated()
+            && validationService.isExpiredDateOfInvite(invite.getDateOfExpireInvite())
+            && validationService.isProcessingAllowed(
+                newUserDto.isUserAgreeToProcessPersonalData())
+            && validEqualityPasswords(newUserDto.getPassword(), newUserDto.getPasswordConfirm())) {
 
             UserEntity user = userConverter.convertUserEntityFromDto(newUserDto);
             user.setPassword(passwordEncoder.encode(user.getPassword()));

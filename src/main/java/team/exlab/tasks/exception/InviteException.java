@@ -1,4 +1,4 @@
-package team.exlab.tasks.exeption;
+package team.exlab.tasks.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class InviteException extends RuntimeException {
 
-    private String massege;
+    private String message;
 }
