@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import team.exlab.tasks.model.dto.NewInviteDto;
-import team.exlab.tasks.service.invite_registration.impl.InviteServiceImpl;
+import team.exlab.tasks.service.dto.NewInviteDto;
+import team.exlab.tasks.service.impl.InviteService;
 
 import java.io.IOException;
 
@@ -17,9 +17,7 @@ import java.io.IOException;
 @RequestMapping
 @RequiredArgsConstructor
 public class InviteController {
-
-    private final InviteServiceImpl inviteService;
-
+    private final InviteService inviteService;
 
     @PreAuthorize("hasAnyAuthority('PM')")
     @PostMapping("/{workspaceId}/invite/send")

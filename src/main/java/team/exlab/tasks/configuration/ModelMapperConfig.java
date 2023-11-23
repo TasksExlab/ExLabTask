@@ -10,7 +10,6 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @Configuration
 public class ModelMapperConfig {
-
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
@@ -22,5 +21,4 @@ public class ModelMapperConfig {
                 .setDestinationNameTokenizer(NameTokenizers.CAMEL_CASE);
         return mapper;
     }
-
 }

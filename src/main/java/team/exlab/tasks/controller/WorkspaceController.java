@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import team.exlab.tasks.model.dto.UserPresentDto;
-import team.exlab.tasks.model.dto.WorkspaceDto;
+import team.exlab.tasks.service.dto.UserPresentDto;
+import team.exlab.tasks.service.dto.WorkspaceDto;
 import team.exlab.tasks.model.entity.WorkspaceEntity;
-import team.exlab.tasks.service.invite_registration.impl.WorkspaceServiceImpl;
+import team.exlab.tasks.service.impl.WorkspaceService;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WorkspaceController {
 
-    private final WorkspaceServiceImpl workspaceService;
+    private final WorkspaceService workspaceService;
 
 
     @GetMapping

@@ -1,6 +1,11 @@
 server:
      port: 8081
 
+token:
+     signing:
+          key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
+     lifetime: 10m
+
 spring:
      datasource:
           url: jdbc:postgresql://localhost:5432/exlab_tasks_db
@@ -28,4 +33,5 @@ spring:
                               enable: true
                protocol: smtp
                test-connection: false
+
 

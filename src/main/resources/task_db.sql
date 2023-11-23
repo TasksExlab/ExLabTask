@@ -79,10 +79,10 @@ VALUES ('PM', 'Project manager');
 INSERT INTO roles(role, description)
 VALUES ('LEAD', 'Team lead');
 INSERT INTO roles(role, description)
-VALUES ('USER', 'Учаcтник поекта');
+VALUES ('USER', 'Project member');
 
-INSERT INTO users(name, surname, email, password, role_id)
-VALUES ('Ivan', 'Kuliba', 'ivan_kuliba_exLab@gmail.com', '{bcrypt}$2a$10$2Il/sRkN70.1LHkL46rqju9tieea5lALI05c0UVVh2D4Xtar3Hoh2', '1');
+INSERT INTO users(name, surname, email, password, role_id) VALUES ('Ivan', 'Kuliba', 'ivan_kuliba_exLab@gmail.com', '{bcrypt}$2a$10$2Il/sRkN70.1LHkL46rqju9tieea5lALI05c0UVVh2D4Xtar3Hoh2', '1');
+INSERT INTO users(name, surname, email, password, role_id) VALUES ('User', 'UserUser', 'user@gmail.com', '{bcrypt}$2a$12$JyahHBgr41dbrIExOX3e6e5zJPotDGRkN19DYPf1yJFZ8Hpsj3i2u', '4');
 
 INSERT INTO workspaces(workspace_name, desc_workspace)
 VALUES ('Workspace#2', 'lead workspace');
