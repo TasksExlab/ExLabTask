@@ -1,10 +1,10 @@
 package team.exlab.tasks.service.dto.user;
 
 import lombok.AllArgsConstructor;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @AllArgsConstructor
 public class JwtResponse {
-    String token;
+    private String token;
 }

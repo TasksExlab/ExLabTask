@@ -1,4 +1,4 @@
-package team.exlab.tasks.service.valildation;
+package team.exlab.tasks.service.validation;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

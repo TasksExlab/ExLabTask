@@ -9,18 +9,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.exlab.tasks.model.enam.UserRole;
 
 import java.util.List;
 
 @Data
 @Builder
-@EqualsAndHashCode(of = "id", callSuper = false)
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {"invites", "users"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

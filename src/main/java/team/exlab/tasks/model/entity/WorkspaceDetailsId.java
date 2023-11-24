@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WorkspaceDetailsId {
-
     private String workspace;
     private UserEntity user;
     private RoleEntity role;
-
 }

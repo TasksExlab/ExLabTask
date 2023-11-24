@@ -1,7 +1,6 @@
 package team.exlab.tasks.configuration;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,8 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import team.exlab.tasks.controller.filter.JwtAuthenticationFilter;
 
-import static team.exlab.tasks.util.PathUrlUtil.*;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+import static team.exlab.tasks.util.UrlPathUtil.*;
 
 @Configuration
 @EnableWebSecurity
@@ -35,12 +35,13 @@ public class SecurityConfig {
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(LOGIN_ADMIN, INVITE_SEND).hasAuthority("ADMIN")
-                        .requestMatchers(LOGIN, REGISTRATION).permitAll()
+                        .requestMatchers(API + LOGIN).permitAll()
+                        .requestMatchers(antMatcher(API + REGISTRATION + "/**")).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling(auth -> auth
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+//                .exceptionHandling(auth -> auth
+//                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

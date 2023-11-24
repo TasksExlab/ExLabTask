@@ -2,13 +2,17 @@ package team.exlab.tasks.service.dto.user;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Value;
+import team.exlab.tasks.service.validation.validator.annotation.CorrectEmail;
+import team.exlab.tasks.service.validation.validator.annotation.CorrectLoginData;
 
-@Value
-@Builder
+@Data
+@CorrectLoginData(message = "Пользователя с такими данными не существует")
 public class LoginUserDtoRequest {
-    @NotEmpty(message = "Заполните поле \"Электронная почта\"")
-    String email;
+    @NotEmpty(message = "Заполните поле 'Электронная почта'")
+    @CorrectEmail(message = "Неверный адрес электронной почты")
+    private String email;
     @NotEmpty(message = "Введите пароль")
-    String password;
+    private String password;
 }

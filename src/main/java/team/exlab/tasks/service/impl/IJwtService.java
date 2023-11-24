@@ -45,13 +45,6 @@ public class IJwtService implements team.exlab.tasks.service.interfaces.IJwtServ
     }
 
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        /*extraClaims.put(
-                "roles",
-                userDetails.getAuthorities()
-                        .stream()
-                        .map(GrantedAuthority::getAuthority)
-                        .toList()
-        );*/
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())

@@ -1,17 +1,11 @@
 package team.exlab.tasks.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang.RandomStringUtils;
 
 import java.time.LocalDateTime;
 
@@ -35,7 +29,7 @@ public class InviteEntity {
 
     @Builder.Default
     @Column(name = "is_activated", nullable = false)
-    private Boolean activated = true;
+    private Boolean isActivated = false;
 
     @Column(name = "date_of_expire_invite", nullable = false)
     private LocalDateTime dateOfExpireInvite;
@@ -47,5 +41,14 @@ public class InviteEntity {
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private RoleEntity role;
+
+    public void setLinkLifeTime() {
+        LocalDateTime dateTimeOfInvite = LocalDateTime.now();
+        this.setDateOfExpireInvite(dateTimeOfInvite.plusDays(7));
+    }
+
+    public void setInviteUniqueIdentifier() {
+        this.setUniqueIdentifier(RandomStringUtils.randomAlphanumeric(40));
+    }
 
 }

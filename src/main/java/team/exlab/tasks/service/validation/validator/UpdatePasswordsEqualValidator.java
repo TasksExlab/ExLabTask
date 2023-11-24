@@ -1,12 +1,12 @@
-package team.exlab.tasks.service.valildation.validator;
+package team.exlab.tasks.service.validation.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import team.exlab.tasks.service.dto.user.ChangePasswordUserDtoRequest;
-import team.exlab.tasks.service.valildation.validator.annotation.PasswordsEqual;
+import team.exlab.tasks.service.validation.validator.annotation.UpdatePasswordsEqual;
 
-public class PasswordsEqualValidator
-        implements ConstraintValidator<PasswordsEqual, ChangePasswordUserDtoRequest> {
+public class UpdatePasswordsEqualValidator
+        implements ConstraintValidator<UpdatePasswordsEqual, ChangePasswordUserDtoRequest> {
 
     @Override
     public boolean isValid(ChangePasswordUserDtoRequest request, ConstraintValidatorContext constraintValidatorContext) {

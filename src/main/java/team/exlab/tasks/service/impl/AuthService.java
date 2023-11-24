@@ -15,17 +15,10 @@ import team.exlab.tasks.service.interfaces.IJwtService;
 @Service
 @RequiredArgsConstructor
 public class AuthService implements IAuthService {
-    private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final IJwtService jwtService;
 
     public JwtResponse createAuthToken(LoginUserDtoRequest request) {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()
-                    )
-            );
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         String token = jwtService.generateToken(userDetails);
         return new JwtResponse(token);

@@ -5,7 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.exlab.tasks.service.dto.UserPresentDto;
-import team.exlab.tasks.service.dto.WorkspaceDto;
+import team.exlab.tasks.service.dto.workspace.CreateWorkspaceDtoRequest;
 import team.exlab.tasks.model.entity.WorkspaceEntity;
 import team.exlab.tasks.service.mapper.UserConverter;
 import team.exlab.tasks.service.mapper.WorkspaceConverter;
@@ -24,12 +24,12 @@ public class WorkspaceService implements IWorkSpaceService {
     private final UserConverter userConverter;
 
     @Override
-    public WorkspaceEntity create(WorkspaceDto workspaceDto) {
+    public WorkspaceEntity create(CreateWorkspaceDtoRequest workspaceDto) {
         return workspaceRepository.save(workspaceConverter.convertWorkspaceFromDto(workspaceDto));
     }
 
     @Override
-    public Optional<WorkspaceDto> update(Long id, WorkspaceDto update) {
+    public Optional<CreateWorkspaceDtoRequest> update(Long id, CreateWorkspaceDtoRequest update) {
         Optional<WorkspaceEntity> existedWorkspace = workspaceRepository.findById(id);
         if (existedWorkspace.isPresent()) {
             WorkspaceEntity workspace = existedWorkspace.get();
@@ -50,7 +50,7 @@ public class WorkspaceService implements IWorkSpaceService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<WorkspaceDto> getById(Long id) {
+    public Optional<CreateWorkspaceDtoRequest> getById(Long id) {
         return workspaceRepository.findById(id)
                 .map(workspaceConverter::convertWorkspaceToDto);
     }
@@ -58,7 +58,7 @@ public class WorkspaceService implements IWorkSpaceService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<WorkspaceDto> getAll() {
+    public List<CreateWorkspaceDtoRequest> getAll() {
         return workspaceRepository.findAll(Sort.by(Sort.Direction.ASC, "id"))
                 .stream()
                 .map(workspaceConverter::convertWorkspaceToDto)

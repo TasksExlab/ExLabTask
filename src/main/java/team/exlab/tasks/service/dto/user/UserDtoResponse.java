@@ -1,12 +1,11 @@
 package team.exlab.tasks.service.dto.user;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
-@Builder
+@Data
 public class UserDtoResponse {
-    String name;
-    String surname;
-    String email;
+    private String name;
+    private String surname;
+    private String email;
+    private String role;
 }

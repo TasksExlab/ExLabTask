@@ -36,7 +36,7 @@ public class EmailService implements IEmailService {
 
     @Override
     public void sendMessageWithAttachment(String to, String subject, String htmlBody)
-            throws MessagingException, IOException {
+            throws MessagingException {
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");

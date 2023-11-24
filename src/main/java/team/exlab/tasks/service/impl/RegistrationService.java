@@ -2,23 +2,22 @@ package team.exlab.tasks.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import team.exlab.tasks.service.dto.BaseResponse;
-import team.exlab.tasks.service.exception.InviteException;
-import team.exlab.tasks.service.exception.RegistrationException;
-import team.exlab.tasks.service.dto.user.UserDto;
 import team.exlab.tasks.model.entity.InviteEntity;
 import team.exlab.tasks.model.entity.UserEntity;
-import team.exlab.tasks.service.mapper.UserConverter;
 import team.exlab.tasks.model.repository.InviteRepository;
 import team.exlab.tasks.model.repository.UserRepository;
 import team.exlab.tasks.model.repository.WorkspaceRepository;
+import team.exlab.tasks.service.dto.BaseResponse;
+import team.exlab.tasks.service.dto.user.CreateUserDtoRequest;
+import team.exlab.tasks.service.dto.user.JwtResponse;
+import team.exlab.tasks.service.exception.NotFoundException;
+import team.exlab.tasks.service.interfaces.IInviteValidationService;
 import team.exlab.tasks.service.interfaces.IRegistrationService;
-
-import static team.exlab.tasks.util.MessagesConstants.*;
+import team.exlab.tasks.service.mapper.UserConverter;
 
 @Slf4j
 @Service
@@ -26,57 +25,52 @@ import static team.exlab.tasks.util.MessagesConstants.*;
 public class RegistrationService implements IRegistrationService {
     private final UserRepository userRepository;
     private final InviteRepository inviteRepository;
-    private final PasswordEncoder passwordEncoder;
     private final UserConverter userConverter;
-    private final ValidationService validationService;
-    private final WorkspaceRepository workspaceRepository;
+    private final IJwtService jwtService;
+    private final IInviteValidationService inviteValidationService;
+    private final UserDetailsService userDetailsService;
 
     @Override
-    public ResponseEntity<?> getRegistrationCredentials(String workspaceId, String uniqueIdentifier)
-            throws RegistrationException, InviteException {
+    public BaseResponse getRegistrationCredentials(String uniqueIdentifier) {
         InviteEntity invite = inviteRepository.getInviteEntityByUniqueIdentifier(uniqueIdentifier)
-                .orElseThrow(() -> new RegistrationException(new ChangeSetPersister.NotFoundException().getMessage()));
+                .orElseThrow(() -> new NotFoundException(
+                        "invite.not.found",
+                        String.format("Приглашение (identifier = '%s') не найдено", uniqueIdentifier))
+                );
 
-        if (validationService.isExistUser(invite.getEmail())) {
-            throw new RegistrationException(USER_IS_ALREADY_REGISTERED);
-        }
+        inviteValidationService.isInviteExpired(invite.getDateOfExpireInvite());
+        inviteValidationService.isInviteActivated(invite.getIsActivated());
+        inviteValidationService.isInviteUserValid(invite.getEmail());
 
-        if (validationService.isExistWorkspace(workspaceId)
-            && (invite.getActivated()
-                && validationService.isExpiredDateOfInvite(
-                invite.getDateOfExpireInvite()))) {
-
-
-            return ResponseEntity.ok(new BaseResponse("Пользователь с email (" + invite.getEmail() + ") перешел по ссылке"));
-        }
-        throw new InviteException(LINK_HAS_ALREADY_BEEN_ACTIVATED);
+        return new BaseResponse(String.format("Пользователь (email = '%s') перешел по ссылке", invite.getEmail()));
     }
 
-    @Override
-    public ResponseEntity<?> createNewUser(String workspaceId, String uniqueIdentifier,
-                                           UserDto newUserDto)
-            throws RegistrationException, InviteException {
-
+    public JwtResponse createNewUser(String uniqueIdentifier, CreateUserDtoRequest request) {
         InviteEntity invite = inviteRepository.getInviteEntityByEmailAndUniqueIdentifier(
-                newUserDto.getEmail(),
+                request.getEmail(),
                 uniqueIdentifier
-        ).orElseThrow(() -> new InviteException(USER_WITH_THIS_EMAIL_OR_UNIQUE_ID_NOT_FOUND));
+        ).orElseThrow(() -> new NotFoundException(
+                "invite.not.found",
+                String.format("Приглашение (email = '%s', identifier = '%s') не найдено", request.getEmail(), uniqueIdentifier))
+        );
 
-        if (validationService.isExistUser(newUserDto.getEmail(), USER_IS_ALREADY_REGISTERED)
-            && validationService.isExistWorkspace(workspaceId)
-            && invite.getActivated()
-            && validationService.isExpiredDateOfInvite(invite.getDateOfExpireInvite())
-            && validationService.isProcessingAllowed(
-                newUserDto.isUserAgreeToProcessPersonalData())
-            && validEqualityPasswords(newUserDto.getPassword(), newUserDto.getPasswordConfirm())) {
+        inviteValidationService.isInviteExpired(invite.getDateOfExpireInvite());
+        inviteValidationService.isInviteActivated(invite.getIsActivated());
 
-            UserEntity user = userConverter.convertUserEntityFromDto(newUserDto);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRole(invite.getRole());
-            user.addWorkspace(invite.getWorkspace());
-            userRepository.save(user);
-            invite.setActivated(false);
-            inviteRepository.save(invite);
+        UserEntity user = userConverter.convertUserEntityFromDto(request);
+        user.setPassword(userConverter.encodePassword(user.getPassword()));
+        user.setRole(invite.getRole());
+        user.addWorkspace(invite.getWorkspace());
+        userRepository.save(user);
+
+        invite.setIsActivated(true);
+        inviteRepository.save(invite);
+
+        return new JwtResponse(
+                jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()))
+        );
+    }
+}
 
 //            WorkspaceDetailsId workspaceDetailsId = WorkspaceDetailsId
 //                    .builder()
@@ -90,14 +84,3 @@ public class RegistrationService implements IRegistrationService {
 //                    .workspaceDetailsId(workspaceDetailsId)
 //                    .build();
 //            workspaceDetailsRepository.save(workspaceDetails);
-
-            return ResponseEntity.ok(SUCCESSFUL_REGISTRATION);
-        }
-        throw new RegistrationException(PASSWORD_DONT_MATCH);
-    }
-
-
-    private boolean validEqualityPasswords(String pass, String pass2) {
-        return pass.equals(pass2);
-    }
-}

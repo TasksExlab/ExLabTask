@@ -12,34 +12,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.exlab.tasks.service.dto.UserPresentDto;
-import team.exlab.tasks.service.dto.WorkspaceDto;
+import team.exlab.tasks.service.dto.workspace.CreateWorkspaceDtoRequest;
 import team.exlab.tasks.model.entity.WorkspaceEntity;
 import team.exlab.tasks.service.impl.WorkspaceService;
 
 import java.util.List;
 
+import static team.exlab.tasks.util.UrlPathUtil.*;
+
 @RestController
-@RequestMapping("/workspaces")
+@RequestMapping(API + WORKSPACES)
 @RequiredArgsConstructor
 public class WorkspaceController {
-
     private final WorkspaceService workspaceService;
 
-
     @GetMapping
-    public ResponseEntity<List<WorkspaceDto>> getAll() {
+    public ResponseEntity<List<CreateWorkspaceDtoRequest>> getAll() {
         return ResponseEntity.ok(workspaceService.getAll());
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @PostMapping("/new")
-    public ResponseEntity<WorkspaceEntity> create(@RequestBody WorkspaceDto workspaceDto) {
+    @PostMapping
+    public ResponseEntity<WorkspaceEntity> create(@RequestBody CreateWorkspaceDtoRequest workspaceDto) {
         return ResponseEntity.ok(workspaceService.create(workspaceDto));
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("{id}")
-    public ResponseEntity<WorkspaceDto> update(@PathVariable Long id, @RequestBody WorkspaceDto newWorkspace) {
+    public ResponseEntity<CreateWorkspaceDtoRequest> update(@PathVariable Long id, @RequestBody CreateWorkspaceDtoRequest newWorkspace) {
         return workspaceService.update(id, newWorkspace)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -47,7 +47,7 @@ public class WorkspaceController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("{id}")
-    public ResponseEntity<WorkspaceDto> getWorkspaceById(@PathVariable Long id) {
+    public ResponseEntity<CreateWorkspaceDtoRequest> getWorkspaceById(@PathVariable Long id) {
         return workspaceService.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

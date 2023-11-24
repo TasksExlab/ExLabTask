@@ -1,9 +1,9 @@
-package team.exlab.tasks.service.dto;
+package team.exlab.tasks.service.dto.workspace;
 
 import lombok.Data;
 
 @Data
-public class WorkspaceDto {
+public class CreateWorkspaceDtoRequest {
     private String workspaceName;
     private String descriptionWorkspace;
 }

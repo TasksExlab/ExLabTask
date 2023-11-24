@@ -19,6 +19,6 @@ public class UserDetailService implements UserDetailsService {
                         .username(user.getEmail())
                         .authorities(user.getRole().getRole())
                         .build())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username = " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден email = " + username));
     }
 }
