@@ -27,9 +27,9 @@ import static team.exlab.tasks.util.MessagesConstants.INVITATION_TO_THE_EXLAB_WO
 public class InviteService implements IInviteService {
     private final InviteRepository inviteRepository;
     private final WorkspaceRepository workspaceRepository;
+    private final RoleRepository roleRepository;
     private final InviteConverter inviteConverter;
     private final IEmailService emailService;
-    private final RoleRepository roleRepository;
 
     public InviteEntity create(CreateInviteDto inviteDto) {
         return inviteRepository.save(inviteConverter.convertInviteEntityFromDto(inviteDto));

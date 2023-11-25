@@ -1,9 +1,7 @@
 package team.exlab.tasks.service.dto.user;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
 import team.exlab.tasks.service.validation.validator.annotation.CorrectEmail;
 import team.exlab.tasks.service.validation.validator.annotation.CorrectLoginData;
 

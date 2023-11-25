@@ -22,21 +22,6 @@ public class UserService implements IUserService, IUserValidationService {
     private final UserConverter userConverter;
 
     @Override
-    public void create(UserDto userDto) {
-        Optional.of(userDto)
-                .map((user) -> {
-                    user.setPassword(
-                            user.getPassword()
-                    );
-                    return user;
-                })
-                .map(userConverter::convertUserEntityFromDto)
-                .map(userRepository::save)
-                .map(userConverter::convertFromUserEntityToDto)
-                .orElseThrow();
-    }
-
-    @Override
     public void changePassword(String userEmail, ChangePasswordUserDtoRequest request) {
         userRepository.findByEmail(userEmail)
                 .map(user -> {

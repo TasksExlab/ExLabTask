@@ -29,7 +29,6 @@ public class MessagesConstants {
     public static final String USER_WITH_THIS_EMAIL_OR_UNIQUE_ID_NOT_FOUND = "Пользователь с таким email или ID не найден";
 
 
-
     public static final String SUCCESSFUL_REGISTRATION = "Поздравляем, Вы успешно зарегистрировались!";
     public static final String SUCCESSFUL_CHANGE_PASSWORD = "Пароль успешно изменен!";
 }

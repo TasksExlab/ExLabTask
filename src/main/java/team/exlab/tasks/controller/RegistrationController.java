@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import team.exlab.tasks.service.dto.BaseResponse;
 import team.exlab.tasks.service.dto.user.CreateUserDtoRequest;
 import team.exlab.tasks.service.dto.user.JwtResponse;
-import team.exlab.tasks.service.dto.user.UserDto;
-import team.exlab.tasks.service.impl.RegistrationService;
 import team.exlab.tasks.service.interfaces.IRegistrationService;
 
 import static team.exlab.tasks.util.UrlPathUtil.API;
@@ -31,7 +29,7 @@ public class RegistrationController {
 
     @PostMapping(REGISTRATION + "/{uniqueIdentifier}")
     public ResponseEntity<JwtResponse> createNewUser(@PathVariable String uniqueIdentifier,
-                                                    @Validated @RequestBody CreateUserDtoRequest request) {
+                                                     @Validated @RequestBody CreateUserDtoRequest request) {
         return new ResponseEntity<>(
                 registrationService.createNewUser(uniqueIdentifier, request),
                 HttpStatus.CREATED

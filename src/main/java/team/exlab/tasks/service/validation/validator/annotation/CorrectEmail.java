@@ -14,6 +14,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = CorrectEmailValidator.class)
 public @interface CorrectEmail {
     String message();
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

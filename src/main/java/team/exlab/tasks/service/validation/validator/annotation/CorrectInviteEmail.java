@@ -2,7 +2,6 @@ package team.exlab.tasks.service.validation.validator.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import team.exlab.tasks.service.validation.validator.CorrectEmailValidator;
 import team.exlab.tasks.service.validation.validator.CorrectInviteEmailValidator;
 
 import java.lang.annotation.ElementType;
@@ -15,6 +14,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = CorrectInviteEmailValidator.class)
 public @interface CorrectInviteEmail {
     String message();
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

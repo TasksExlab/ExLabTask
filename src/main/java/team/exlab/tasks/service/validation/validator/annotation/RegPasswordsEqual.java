@@ -3,7 +3,6 @@ package team.exlab.tasks.service.validation.validator.annotation;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import team.exlab.tasks.service.validation.validator.RegPasswordsEqualValidator;
-import team.exlab.tasks.service.validation.validator.UpdatePasswordsEqualValidator;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

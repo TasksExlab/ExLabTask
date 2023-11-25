@@ -3,7 +3,8 @@ package team.exlab.tasks.controller.handler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import team.exlab.tasks.service.exception.ApiError;
 import team.exlab.tasks.service.exception.BaseException;
 import team.exlab.tasks.service.validation.ValidationErrorResponse;
@@ -35,6 +36,7 @@ public class ErrorHandler {
                 HttpStatus.BAD_REQUEST
         );
     }
+
     @ExceptionHandler(BaseException.class)
     ResponseEntity<ApiError> handleBaseException(BaseException ex) {
         return new ResponseEntity<>(ex.getApiError(), ex.getHttpStatus());

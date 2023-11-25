@@ -3,8 +3,8 @@ package team.exlab.tasks.service.mapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import team.exlab.tasks.service.dto.workspace.CreateWorkspaceDtoRequest;
 import team.exlab.tasks.model.entity.WorkspaceEntity;
+import team.exlab.tasks.service.dto.workspace.CreateWorkspaceDtoRequest;
 
 @RequiredArgsConstructor
 @Component
