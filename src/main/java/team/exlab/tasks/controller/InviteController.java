@@ -2,6 +2,7 @@ package team.exlab.tasks.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -18,13 +19,13 @@ import static team.exlab.tasks.util.UrlPathUtil.API;
 public class InviteController {
     private final IInviteService inviteService;
 
-    @PreAuthorize("hasAnyAuthority('PM')")
-    @PostMapping("workspaces/{workspaceId}/invite")
+    @PreAuthorize("hasAnyAuthority('PM', 'ADMIN')")
+    @PostMapping(value = "workspaces/{workspaceId}/invite")
     public ResponseEntity<BaseResponse> sendInvite(@PathVariable Long workspaceId,
                                                    @Validated @RequestBody CreateInviteDto inviteDto) {
         return new ResponseEntity<>(
                 inviteService.sendInvite(workspaceId, inviteDto),
-                HttpStatus.CREATED
+                HttpStatus.OK
         );
     }
 }

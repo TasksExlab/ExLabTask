@@ -2,6 +2,7 @@ package team.exlab.tasks.service.validation.validator.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import team.exlab.tasks.service.validation.validator.UniqueEmailValidator;
 import team.exlab.tasks.service.validation.validator.UpdatePasswordsEqualValidator;
 
 import java.lang.annotation.ElementType;
@@ -11,7 +12,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UpdatePasswordsEqualValidator.class)
+@Constraint(validatedBy = UniqueEmailValidator.class)
 public @interface UniqueEmail {
     String message();
 

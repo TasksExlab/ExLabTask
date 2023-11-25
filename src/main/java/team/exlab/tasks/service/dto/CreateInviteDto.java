@@ -11,7 +11,7 @@ public class CreateInviteDto {
     @CorrectRole(message = "Роль не найдена")
     private String role;
     @CorrectInviteEmail(message = "Ссылка уже была отправлена ранее этому пользователю")
-    @Pattern(regexp = ".*exlab\\.gmail\\.com")
+    @Pattern(regexp = ".*exlab@gmail\\.com")
     @NotEmpty
     private String email;
 }

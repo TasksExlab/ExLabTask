@@ -1,12 +1,12 @@
 package team.exlab.tasks.service.dto.user;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import org.hibernate.validator.constraints.Currency;
-import team.exlab.tasks.service.validation.validator.annotation.CorrectEmail;
 import team.exlab.tasks.service.validation.validator.annotation.RegPasswordsEqual;
 import team.exlab.tasks.service.validation.validator.annotation.UniqueEmail;
 
@@ -38,5 +38,20 @@ public class CreateUserDtoRequest {
     @NotEmpty(message = "Поле обязательно для заполнения")
     private String passwordConfirm;
     @AssertTrue(message = "Необходимо подтвердить согласие на обработку персональных данных")
-    private boolean isUserAgreeToProcessPersonalData;
+    private Boolean isUserAgreeToProcessPersonalData;
+
+    @JsonCreator
+    public CreateUserDtoRequest(@JsonProperty("name") String name,
+                                @JsonProperty("surname") String surname,
+                                @JsonProperty("email") String email,
+                                @JsonProperty("password") String password,
+                                @JsonProperty("passwordConfirm") String passwordConfirm,
+                                @JsonProperty("isUserAgreeToProcessPersonalData") Boolean isUserAgreeToProcessPersonalData) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.passwordConfirm = passwordConfirm;
+        this.isUserAgreeToProcessPersonalData = isUserAgreeToProcessPersonalData;
+    }
 }
