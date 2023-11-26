@@ -7,7 +7,5 @@ public interface IInviteValidationService {
 
     void isInviteActivated(boolean isActivated);
 
-    void isInviteUserValid(String Email);
-
     boolean isInviteRepeatsToUser(String userEmail);
 }

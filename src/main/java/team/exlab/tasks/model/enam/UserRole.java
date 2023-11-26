@@ -22,4 +22,7 @@ public enum UserRole implements GrantedAuthority {
                 .findFirst();
     }
 
+    public String toString() {
+        return this.name();
+    }
 }

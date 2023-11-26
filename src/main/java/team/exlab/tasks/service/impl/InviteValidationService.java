@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class InviteValidationService implements IInviteValidationService {
-    private final UserRepository userRepository;
     private final InviteRepository inviteRepository;
 
     @Override
@@ -31,16 +30,6 @@ public class InviteValidationService implements IInviteValidationService {
             throw new BadRequestException(
                     "link.has.activated.yet",
                     "Ссылка уже была активирована ранее"
-            );
-        }
-    }
-
-    @Override
-    public void isInviteUserValid(String userEmail) {
-        if (userRepository.existsByEmail(userEmail)) {
-            throw new BadRequestException(
-                    "user.is.registered.yet",
-                    String.format("Пользователь (email = '%s') уже зарегистрирован", userEmail)
             );
         }
     }

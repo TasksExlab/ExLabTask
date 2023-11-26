@@ -31,4 +31,5 @@ public class MessagesConstants {
 
     public static final String SUCCESSFUL_REGISTRATION = "Поздравляем, Вы успешно зарегистрировались!";
     public static final String SUCCESSFUL_CHANGE_PASSWORD = "Пароль успешно изменен!";
+    public static final String SUCCESSFUL_DELETE_WORKSPACE = "Рабочее пространство успешно удалено";
 }

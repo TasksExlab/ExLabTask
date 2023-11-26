@@ -9,7 +9,7 @@ import team.exlab.tasks.service.validation.validator.annotation.CorrectRole;
 @Data
 public class CreateInviteDto {
     @CorrectRole(message = "Роль не найдена")
-    private String role;
+    private String roleName;
     @CorrectInviteEmail(message = "Ссылка уже была отправлена ранее этому пользователю")
     @Pattern(regexp = ".*exlab@gmail\\.com")
     @NotEmpty

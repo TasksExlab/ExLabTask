@@ -11,7 +11,7 @@ import team.exlab.tasks.service.dto.CreateInviteDto;
 public class InviteConverter {
     private final ModelMapper modelMapper;
 
-    public InviteEntity convertInviteEntityFromDto(CreateInviteDto invite) {
+    public InviteEntity convertDtoToEntity(CreateInviteDto invite) {
         return modelMapper.map(invite, InviteEntity.class);
     }
 }

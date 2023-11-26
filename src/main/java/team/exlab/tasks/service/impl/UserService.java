@@ -4,15 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.exlab.tasks.model.repository.UserRepository;
+import team.exlab.tasks.service.dto.BaseResponse;
 import team.exlab.tasks.service.dto.user.ChangePasswordUserDtoRequest;
-import team.exlab.tasks.service.dto.user.UserDto;
 import team.exlab.tasks.service.dto.user.UserDtoResponse;
-import team.exlab.tasks.service.exception.NotFoundException;
 import team.exlab.tasks.service.interfaces.IUserService;
 import team.exlab.tasks.service.interfaces.IUserValidationService;
 import team.exlab.tasks.service.mapper.UserConverter;
-
-import java.util.Optional;
+import team.exlab.tasks.util.MessagesConstants;
 
 @Service
 @Transactional
@@ -22,7 +20,7 @@ public class UserService implements IUserService, IUserValidationService {
     private final UserConverter userConverter;
 
     @Override
-    public void changePassword(String userEmail, ChangePasswordUserDtoRequest request) {
+    public BaseResponse changePassword(String userEmail, ChangePasswordUserDtoRequest request) {
         userRepository.findByEmail(userEmail)
                 .map(user -> {
                     user.setPassword(
@@ -30,16 +28,14 @@ public class UserService implements IUserService, IUserValidationService {
                     );
                     return user;
                 });
+        return new BaseResponse(MessagesConstants.SUCCESSFUL_CHANGE_PASSWORD);
     }
 
     @Override
     public UserDtoResponse getUserByUsername(String username) {
         return userRepository.findByEmail(username)
-                .map(userConverter::convertFromUserEntityToDto)
-                .orElseThrow(() -> new NotFoundException(
-                        "user.not.found",
-                        String.format("Пользователь не найден email = '%s'", username))
-                );
+                .map(userConverter::convertEntityToDto)
+                .orElseThrow();
     }
 
     @Override

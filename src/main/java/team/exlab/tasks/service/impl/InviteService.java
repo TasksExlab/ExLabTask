@@ -32,7 +32,7 @@ public class InviteService implements IInviteService {
     private final IEmailService emailService;
 
     public InviteEntity create(CreateInviteDto inviteDto) {
-        return inviteRepository.save(inviteConverter.convertInviteEntityFromDto(inviteDto));
+        return inviteRepository.save(inviteConverter.convertDtoToEntity(inviteDto));
     }
 
     @Override
@@ -43,11 +43,11 @@ public class InviteService implements IInviteService {
                         String.format("Рабочее пространство (id = '%s') не найдено", workspaceId)
                 ));
 
-        InviteEntity invite = inviteConverter.convertInviteEntityFromDto(createInviteDto);
+        InviteEntity invite = inviteConverter.convertDtoToEntity(createInviteDto);
         invite.setLinkLifeTime();
         invite.setInviteUniqueIdentifier();
         invite.setWorkspace(workspace);
-        invite.setRole(roleRepository.findByRole(UserRole.find(createInviteDto.getRole()).get()).get());
+        invite.setRole(roleRepository.findByRole(UserRole.find(createInviteDto.getRoleName()).get()).get());
 
         String inviteUrl = "http://localhost:8080/api/v1/registration/" + invite.getUniqueIdentifier();
         String htmlBody = MailTemplate.buildEmail(inviteUrl);

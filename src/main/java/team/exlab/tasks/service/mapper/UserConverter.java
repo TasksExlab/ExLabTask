@@ -5,11 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import team.exlab.tasks.model.entity.InviteEntity;
 import team.exlab.tasks.model.entity.UserEntity;
 import team.exlab.tasks.service.dto.UserPresentDto;
 import team.exlab.tasks.service.dto.user.CreateUserDtoRequest;
-import team.exlab.tasks.service.dto.user.UserDto;
 import team.exlab.tasks.service.dto.user.UserDtoResponse;
 
 @RequiredArgsConstructor
@@ -19,20 +17,15 @@ public class UserConverter {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserEntity convertUserEntityFromDto(UserDto userDto) {
+    public UserEntity convertDtoToEntity(CreateUserDtoRequest userDto) {
         return modelMapper.map(userDto, UserEntity.class);
     }
 
-    public UserEntity convertUserEntityFromDto(CreateUserDtoRequest userDto) {
-        return modelMapper.map(userDto, UserEntity.class);
-    }
-
-    public UserDtoResponse convertFromUserEntityToDto(UserEntity user) {
+    public UserDtoResponse convertEntityToDto(UserEntity user) {
+        modelMapper.createTypeMap(UserEntity.class, UserDtoResponse.class)
+                .addMappings(mapper -> mapper.map(src -> src.getRole().getDescription(),
+                        UserDtoResponse::setRole));
         return modelMapper.map(user, UserDtoResponse.class);
-    }
-
-    public UserDto emailFromInviteToDto(InviteEntity invite) {
-        return modelMapper.map(invite, UserDto.class);
     }
 
     public UserPresentDto convertFromUserEntityToUserPresentDto(UserEntity user) {
@@ -41,14 +34,5 @@ public class UserConverter {
 
     public String encodePassword(String rawPassword) {
         return passwordEncoder.encode(rawPassword);
-    }
-
-    @PostConstruct
-    public void setupMapper() {
-        modelMapper.createTypeMap(UserEntity.class, UserDtoResponse.class)
-                .addMappings(mapper -> {
-                    mapper.map(src -> src.getRole().getDescription(),
-                            UserDtoResponse::setRole);
-                });
     }
 }

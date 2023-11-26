@@ -20,10 +20,10 @@ public class WorkspaceEntity {
     private Long id;
 
     @Column(name = "workspace_name", length = 50, nullable = false)
-    private String workspaceName;
+    private String name;
 
     @Column(name = "desc_workspace", length = 500)
-    private String descriptionWorkspace;
+    private String description;
 
     @Builder.Default
     @ManyToMany(mappedBy = "workspaces")

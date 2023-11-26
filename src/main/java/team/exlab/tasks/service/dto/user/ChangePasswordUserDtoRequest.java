@@ -2,10 +2,12 @@ package team.exlab.tasks.service.dto.user;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import team.exlab.tasks.service.validation.validator.annotation.UpdatePasswordsEqual;
 
 @Data
+@AllArgsConstructor
 @UpdatePasswordsEqual(message = "Пароли не совпадают")
 public class ChangePasswordUserDtoRequest {
     @Pattern(regexp = ".{8,}",

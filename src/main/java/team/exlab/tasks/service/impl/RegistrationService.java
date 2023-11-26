@@ -2,15 +2,12 @@ package team.exlab.tasks.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import team.exlab.tasks.model.entity.InviteEntity;
 import team.exlab.tasks.model.entity.UserEntity;
 import team.exlab.tasks.model.repository.InviteRepository;
 import team.exlab.tasks.model.repository.UserRepository;
-import team.exlab.tasks.model.repository.WorkspaceRepository;
 import team.exlab.tasks.service.dto.BaseResponse;
 import team.exlab.tasks.service.dto.user.CreateUserDtoRequest;
 import team.exlab.tasks.service.dto.user.JwtResponse;
@@ -40,7 +37,6 @@ public class RegistrationService implements IRegistrationService {
 
         inviteValidationService.isInviteExpired(invite.getDateOfExpireInvite());
         inviteValidationService.isInviteActivated(invite.getIsActivated());
-        inviteValidationService.isInviteUserValid(invite.getEmail());
 
         return new BaseResponse(String.format("Пользователь (email = '%s') перешел по ссылке", invite.getEmail()));
     }
@@ -57,7 +53,7 @@ public class RegistrationService implements IRegistrationService {
         inviteValidationService.isInviteExpired(invite.getDateOfExpireInvite());
         inviteValidationService.isInviteActivated(invite.getIsActivated());
 
-        UserEntity user = userConverter.convertUserEntityFromDto(request);
+        UserEntity user = userConverter.convertDtoToEntity(request);
         user.setPassword(userConverter.encodePassword(user.getPassword()));
         user.setRole(invite.getRole());
         user.addWorkspace(invite.getWorkspace());

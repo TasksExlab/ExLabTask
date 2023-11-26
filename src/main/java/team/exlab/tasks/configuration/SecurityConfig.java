@@ -3,6 +3,7 @@ package team.exlab.tasks.configuration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import team.exlab.tasks.controller.filter.JwtAuthenticationFilter;
 
@@ -32,14 +34,19 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(LOGIN_ADMIN, INVITE_SEND).hasAuthority("ADMIN")
-                        .requestMatchers(API + LOGIN).permitAll()
-                        .requestMatchers(antMatcher(API + REGISTRATION + "/**")).permitAll()
+                        .requestMatchers(
+                                antMatcher(API + REGISTRATION + "/**"),
+                                antMatcher("/swagger-ui/**"),
+                                antMatcher("/v3/api-docs/**")
+                        ).permitAll()
+                        .requestMatchers(
+                                API + LOGIN,
+                                API + ROLES).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .exceptionHandling(auth -> auth
-//                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+                .exceptionHandling(auth -> auth
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
