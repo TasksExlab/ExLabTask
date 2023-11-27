@@ -4,6 +4,7 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team.exlab.tasks.model.enam.UserRole;
 import team.exlab.tasks.model.entity.InviteEntity;
 import team.exlab.tasks.model.repository.InviteRepository;
@@ -21,7 +22,6 @@ import java.io.IOException;
 
 import static team.exlab.tasks.util.MessagesConstants.INVITATION_TO_THE_EXLAB_WORKSPACE;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class InviteService implements IInviteService {
@@ -31,11 +31,8 @@ public class InviteService implements IInviteService {
     private final InviteConverter inviteConverter;
     private final IEmailService emailService;
 
-    public InviteEntity create(CreateInviteDto inviteDto) {
-        return inviteRepository.save(inviteConverter.convertDtoToEntity(inviteDto));
-    }
-
     @Override
+    @Transactional
     public BaseResponse sendInvite(Long workspaceId, CreateInviteDto createInviteDto) {
         var workspace = workspaceRepository.findById(workspaceId)
                 .orElseThrow(() -> new NotFoundException(

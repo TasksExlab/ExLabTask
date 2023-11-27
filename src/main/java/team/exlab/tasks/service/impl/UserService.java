@@ -13,13 +13,14 @@ import team.exlab.tasks.service.mapper.UserConverter;
 import team.exlab.tasks.util.MessagesConstants;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
-public class UserService implements IUserService, IUserValidationService {
+@Transactional(readOnly = true)
+public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final UserConverter userConverter;
 
     @Override
+    @Transactional
     public BaseResponse changePassword(String userEmail, ChangePasswordUserDtoRequest request) {
         userRepository.findByEmail(userEmail)
                 .map(user -> {
@@ -36,15 +37,5 @@ public class UserService implements IUserService, IUserValidationService {
         return userRepository.findByEmail(username)
                 .map(userConverter::convertEntityToDto)
                 .orElseThrow();
-    }
-
-    @Override
-    public boolean isValidLoginEmail(String email) {
-        return userRepository.existsByEmail(email);
-    }
-
-    @Override
-    public boolean isValidRegistrationEmail(String email) {
-        return !userRepository.existsByEmail(email);
     }
 }

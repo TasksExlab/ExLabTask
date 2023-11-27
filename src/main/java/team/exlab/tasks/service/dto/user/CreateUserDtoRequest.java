@@ -6,11 +6,14 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import team.exlab.tasks.service.validation.validator.annotation.RegPasswordsEqual;
 import team.exlab.tasks.service.validation.validator.annotation.UniqueEmail;
 
 @Data
+@NoArgsConstructor
 @RegPasswordsEqual(message = "Пароли не совпадают")
 public class CreateUserDtoRequest {
     @Pattern(regexp = "^[А-ЯA-Z][а-яёa-z]*$",

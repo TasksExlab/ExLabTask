@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import team.exlab.tasks.service.interfaces.IJwtService;
 
 import java.security.Key;
 import java.time.Duration;
@@ -17,7 +18,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class IJwtService implements team.exlab.tasks.service.interfaces.IJwtService {
+public class JwtService implements IJwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
     @Value("${token.lifetime}")

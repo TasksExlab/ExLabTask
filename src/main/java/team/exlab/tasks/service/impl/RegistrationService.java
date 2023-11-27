@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team.exlab.tasks.model.entity.InviteEntity;
 import team.exlab.tasks.model.entity.UserEntity;
 import team.exlab.tasks.model.repository.InviteRepository;
@@ -19,11 +20,12 @@ import team.exlab.tasks.service.mapper.UserConverter;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class RegistrationService implements IRegistrationService {
     private final UserRepository userRepository;
     private final InviteRepository inviteRepository;
     private final UserConverter userConverter;
-    private final IJwtService jwtService;
+    private final JwtService jwtService;
     private final IInviteValidationService inviteValidationService;
     private final UserDetailsService userDetailsService;
 
@@ -41,6 +43,8 @@ public class RegistrationService implements IRegistrationService {
         return new BaseResponse(String.format("Пользователь (email = '%s') перешел по ссылке", invite.getEmail()));
     }
 
+    @Override
+    @Transactional
     public JwtResponse createNewUser(String uniqueIdentifier, CreateUserDtoRequest request) {
         InviteEntity invite = inviteRepository.getInviteEntityByEmailAndUniqueIdentifier(
                 request.getEmail(),
@@ -67,16 +71,3 @@ public class RegistrationService implements IRegistrationService {
         );
     }
 }
-
-//            WorkspaceDetailsId workspaceDetailsId = WorkspaceDetailsId
-//                    .builder()
-//                    .workspace(
-//                            String.valueOf(workspaceRepository.getWorkspaceById(invite.getWorkspace().getId())))
-//                    .user(user)
-//                    .role(invite.getRole())
-//                    .build();
-//
-//            WorkspaceDetails workspaceDetails = WorkspaceDetails.builder()
-//                    .workspaceDetailsId(workspaceDetailsId)
-//                    .build();
-//            workspaceDetailsRepository.save(workspaceDetails);

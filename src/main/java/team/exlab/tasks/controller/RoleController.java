@@ -24,22 +24,22 @@ import static team.exlab.tasks.util.UrlPathUtil.ROLES;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(API + ROLES)
-@Tag(name = "Контроллер ролей",
-        description = "Позволяет выполнять операции с ролями")
+@Tag(name = "Authority controller",
+        description = "Operations with authorities")
 public class RoleController {
     private final IRoleService roleService;
 
     @GetMapping
-    @Operation(summary = "Получить все роли",
-            description = "Позволяет получить все роли")
+    @Operation(summary = "Get all authorities",
+            description = "Returns authorities array")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Роли успешно получены",
+                    description = "Authorities successful returned",
                     content = {@Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = RoleDtoResponse.class)))}
             ),
             @ApiResponse(responseCode = "500",
-                    description = "Непредвиденная ошибка"
+                    description = "Unexpected server error"
             )
     })
     public ResponseEntity<List<RoleDtoResponse>> getAllRoles() {

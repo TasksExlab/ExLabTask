@@ -11,7 +11,7 @@ import team.exlab.tasks.service.validation.validator.annotation.UniqueWorkspaceN
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateWorkspaceDtoRequest {
+public class UpdateWorkspaceDtoRequest {
     @NotEmpty(message = "Введите название рабочего пространства")
     @Size(min = 3, message = "Название рабочего пространства должно содержать хотя бы 3 символа")
     @Pattern(regexp = "[a-zA-Zа-яА-Я0-9.,!?();:]+",

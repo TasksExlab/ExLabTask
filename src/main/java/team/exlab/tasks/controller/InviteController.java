@@ -26,45 +26,44 @@ import static team.exlab.tasks.util.UrlPathUtil.INVITE_SEND;
 @RestController
 @RequestMapping(API)
 @RequiredArgsConstructor
-@Tag(name = "Контроллер приглашений",
-        description = "Отправление приглашений")
+@Tag(name = "Invite controller",
+        description = "Sending invites")
 public class InviteController {
     private final IInviteService inviteService;
 
-    @PreAuthorize("hasAnyAuthority('PM', 'ADMIN')")
-    @PostMapping(value = "workspaces/{workspaceId}" + INVITE_SEND)
+    @PostMapping(value = "workspaces/{id}" + INVITE_SEND)
     @SecurityRequirement(name = "Bearer Authentication")
-    @Operation(summary = "Приглашение нового пользователя",
-            description = "Позволяет отправить приглашение в рабочее пространство новому пользователю")
+    @Operation(summary = "Invite new user",
+            description = "Send invite on email to register in app")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Приглашение успешно отправлено",
+                    description = "Invitation sent successfully",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = BaseResponse.class))}
             ),
             @ApiResponse(responseCode = "400",
-                    description = "Невалидные данные",
+                    description = "Invalid data",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ValidationErrorResponse.class))}
             ),
             @ApiResponse(responseCode = "403",
-                    description = "Недостаточно прав"
+                    description = "Not enough authorities"
             ),
             @ApiResponse(responseCode = "404",
-                    description = "Рабочее пространство не найдено",
+                    description = "Workspace not found",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class))}
             ),
             @ApiResponse(responseCode = "500",
-                    description = "Непредвиденная ошибка"
+                    description = "Unexpected server error"
             )
     })
     public ResponseEntity<BaseResponse> sendInvite(
-            @PathVariable @Parameter(description = "Идентификатор рабочего пространства") Long workspaceId,
+            @PathVariable Long id,
             @Validated @RequestBody CreateInviteDto inviteDto
     ) {
         return new ResponseEntity<>(
-                inviteService.sendInvite(workspaceId, inviteDto),
+                inviteService.sendInvite(id, inviteDto),
                 HttpStatus.OK
         );
     }

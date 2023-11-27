@@ -26,28 +26,28 @@ import static team.exlab.tasks.util.UrlPathUtil.API;
 @RestController
 @RequestMapping(API + ACCOUNT)
 @RequiredArgsConstructor
-@Tag(name = "Контроллер данных пользователя",
-        description = "Позволяет выполнять действия с аккаунтом пользователя")
+@Tag(name = "User data controller",
+        description = "Operations with user account")
 public class UserController {
     private final IUserService userService;
 
     @PatchMapping("/password")
     @SecurityRequirement(name = "Bearer Authentication")
-    @Operation(summary = "Изменение пароля пользователя",
-            description = "Позволяет изменить пароль пользователя")
+    @Operation(summary = "Change user password",
+            description = "Change user password")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Успешное изменение пароля",
+                    description = "Password has been successfully changed",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = BaseResponse.class))}
             ),
             @ApiResponse(responseCode = "400",
-                    description = "Невалидные данные",
+                    description = "Invalid data",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ValidationErrorResponse.class))}
             ),
             @ApiResponse(responseCode = "500",
-                    description = "Непредвиденная ошибка"
+                    description = "Unexpected server error"
             )
     })
     public ResponseEntity<BaseResponse> changePassword(
@@ -62,19 +62,21 @@ public class UserController {
 
     @GetMapping
     @SecurityRequirement(name = "Bearer Authentication")
-    @Operation(summary = "Получение данных об аккаунте пользователе",
-            description = "Позволяет получить данные об аккаунте пользователя")
+    @Operation(summary = "Get user data",
+            description = "Returns info about user account")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Данные о пользоваете успешно получены",
+                    description = "Successfully returned user data",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = UserDtoResponse.class))}
             ),
             @ApiResponse(responseCode = "500",
-                    description = "Непредвиденная ошибка"
+                    description = "Unexpected server error"
             )
     })
-    public ResponseEntity<UserDtoResponse> getUserInfo(Principal principal) {
+    public ResponseEntity<UserDtoResponse> getUserInfo(
+            Principal principal
+    ) {
         return new ResponseEntity<>(
                 userService.getUserByUsername(principal.getName()),
                 HttpStatus.OK

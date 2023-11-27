@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -43,7 +44,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             userEmail = IJwtService.extractUserName(jwt);
         } catch (SignatureException | ExpiredJwtException e) {
-            filterChain.doFilter(request, response);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().flush();
             return;
         }
 

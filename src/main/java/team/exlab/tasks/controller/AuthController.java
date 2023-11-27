@@ -24,27 +24,27 @@ import static team.exlab.tasks.util.UrlPathUtil.API;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(API)
-@Tag(name = "Контроллер аутентификации",
-        description = "Аутентификация пользователя")
+@Tag(name = "Authentication controller",
+        description = "User authentication")
 public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    @Operation(summary = "Аутентификация пользователя",
-            description = "Позволяет пользователю войти в систему")
+    @Operation(summary = "User authentication",
+            description = "Authenticate user and return JWT token")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Успешная аутентификация",
+                    description = "Successful authentication",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = JwtResponse.class))}
             ),
             @ApiResponse(responseCode = "400",
-                    description = "Невалидные данные",
+                    description = "Invalid data",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ValidationErrorResponse.class))}
             ),
             @ApiResponse(responseCode = "500",
-                    description = "Непредвиденная ошибка"
+                    description = "Unexpected server error"
             )
     })
     public ResponseEntity<JwtResponse> createAuthToken(
