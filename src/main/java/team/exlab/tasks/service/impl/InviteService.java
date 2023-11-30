@@ -2,11 +2,10 @@ package team.exlab.tasks.service.impl;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.exlab.tasks.model.enam.UserRole;
-import team.exlab.tasks.model.entity.InviteEntity;
+import team.exlab.tasks.model.entity.Invite;
 import team.exlab.tasks.model.repository.InviteRepository;
 import team.exlab.tasks.model.repository.RoleRepository;
 import team.exlab.tasks.model.repository.WorkspaceRepository;
@@ -40,7 +39,7 @@ public class InviteService implements IInviteService {
                         String.format("Рабочее пространство (id = '%s') не найдено", workspaceId)
                 ));
 
-        InviteEntity invite = inviteConverter.convertDtoToEntity(createInviteDto);
+        Invite invite = inviteConverter.convertDtoToEntity(createInviteDto);
         invite.setLinkLifeTime();
         invite.setInviteUniqueIdentifier();
         invite.setWorkspace(workspace);

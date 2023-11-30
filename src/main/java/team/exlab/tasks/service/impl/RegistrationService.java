@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import team.exlab.tasks.model.entity.InviteEntity;
-import team.exlab.tasks.model.entity.UserEntity;
+import team.exlab.tasks.model.entity.Invite;
+import team.exlab.tasks.model.entity.User;
 import team.exlab.tasks.model.repository.InviteRepository;
 import team.exlab.tasks.model.repository.UserRepository;
 import team.exlab.tasks.service.dto.BaseResponse;
@@ -31,7 +31,7 @@ public class RegistrationService implements IRegistrationService {
 
     @Override
     public BaseResponse getRegistrationCredentials(String uniqueIdentifier) {
-        InviteEntity invite = inviteRepository.getInviteEntityByUniqueIdentifier(uniqueIdentifier)
+        Invite invite = inviteRepository.getInviteEntityByUniqueIdentifier(uniqueIdentifier)
                 .orElseThrow(() -> new NotFoundException(
                         "invite.not.found",
                         String.format("Приглашение (identifier = '%s') не найдено", uniqueIdentifier))
@@ -46,7 +46,7 @@ public class RegistrationService implements IRegistrationService {
     @Override
     @Transactional
     public JwtResponse createNewUser(String uniqueIdentifier, CreateUserDtoRequest request) {
-        InviteEntity invite = inviteRepository.getInviteEntityByEmailAndUniqueIdentifier(
+        Invite invite = inviteRepository.getInviteEntityByEmailAndUniqueIdentifier(
                 request.getEmail(),
                 uniqueIdentifier
         ).orElseThrow(() -> new NotFoundException(
@@ -57,7 +57,7 @@ public class RegistrationService implements IRegistrationService {
         inviteValidationService.isInviteExpired(invite.getDateOfExpireInvite());
         inviteValidationService.isInviteActivated(invite.getIsActivated());
 
-        UserEntity user = userConverter.convertDtoToEntity(request);
+        User user = userConverter.convertDtoToEntity(request);
         user.setPassword(userConverter.encodePassword(user.getPassword()));
         user.setRole(invite.getRole());
         user.addWorkspace(invite.getWorkspace());

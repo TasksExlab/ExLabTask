@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS invites;
+/*DROP TABLE IF EXISTS invites;
 DROP TABLE IF EXISTS permissions;
 DROP SEQUENCE IF EXISTS workspace_id;
 DROP TABLE IF EXISTS user_workspace;
@@ -70,7 +70,7 @@ CREATE TRIGGER my_table_generate_id_trigger
     BEFORE INSERT
     ON workspaces
     FOR EACH ROW
-EXECUTE FUNCTION generate_id();
+EXECUTE FUNCTION generate_id();*/
 
 INSERT INTO roles(role, description)
 VALUES ('ADMIN', 'Administrator');

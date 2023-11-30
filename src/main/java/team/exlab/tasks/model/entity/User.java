@@ -8,13 +8,13 @@ import java.util.List;
 
 @Data
 @Builder
-@EqualsAndHashCode(of = "id", callSuper = false)
+@EqualsAndHashCode(of = "email")
 @ToString(exclude = "workspaces")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,21 +29,21 @@ public class UserEntity {
     @Column(name = "password", length = 256, nullable = false)
     private String password;
 
-    @Column(name = "email", length = 60, nullable = false)
+    @Column(name = "email", length = 60, nullable = false, unique = true)
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-    private RoleEntity role;
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+    private Role role;
 
     @Builder.Default
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_workspace",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "workspace_id"))
-    private List<WorkspaceEntity> workspaces = new ArrayList<>();
+    private List<Workspace> workspaces = new ArrayList<>();
 
-    public void addWorkspace(WorkspaceEntity workspace) {
+    public void addWorkspace(Workspace workspace) {
         this.getWorkspaces().add(workspace);
         workspace.getUsers().add(this);
     }

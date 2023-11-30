@@ -8,12 +8,13 @@ import java.util.List;
 
 @Data
 @Builder
-@EqualsAndHashCode(of = "id", callSuper = false)
+@EqualsAndHashCode(of = "name")
+@ToString(exclude = {"users", "invites"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "workspaces")
-public class WorkspaceEntity {
+public class Workspace {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +27,10 @@ public class WorkspaceEntity {
     private String description;
 
     @Builder.Default
-    @ManyToMany(mappedBy = "workspaces")
-    private List<UserEntity> users = new ArrayList<>();
+    @ManyToMany(mappedBy = "workspaces", fetch = FetchType.LAZY)
+    private List<User> users = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "workspace")
-    private List<InviteEntity> invites = new ArrayList<>();
+    @OneToMany(mappedBy = "workspace", fetch = FetchType.LAZY)
+    private List<Invite> invites = new ArrayList<>();
 }

@@ -1,37 +1,39 @@
 server:
-     port: 8081
+  port: 8081
 
 token:
-     signing:
-          key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
-     lifetime: 1m
+  signing:
+    key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
+  lifetime: 1m
 
 spring:
-     datasource:
-          url: jdbc:postgresql://localhost:5432/exlab_tasks_db
-          username: postgres
-          password: 1234
-          driver-class-name: org.postgresql.Driver
-     jpa:
-          properties:
-               hibernate:
-                    dialect: org.hibernate.dialect.PostgresPlusDialect
-                    show_sql: true
-                    ddl-auto: validate
-                    format_sql: true
-     mail:
-          host: smtp.gmail.com
-          port: 587
-          username: puivan617
-          password: sliuhrnbiuqwxjwb
-          tls: true
-          properties:
-               mail:
-                    smtp:
-                         auth: true
-                         starttls:
-                              enable: true
-               protocol: smtp
-               test-connection: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/exlab_tasks_db
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    hibernate:
+      ddl-auto: create
+      naming:
+          physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: puivan617
+    password: sliuhrnbiuqwxjwb
+    tls: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+      protocol: smtp
+      test-connection: false
 
 

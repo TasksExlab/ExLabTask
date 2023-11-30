@@ -1,10 +1,7 @@
 package team.exlab.tasks.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.commons.lang.RandomStringUtils;
 
 import java.time.LocalDateTime;
@@ -13,18 +10,19 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "uniqueIdentifier")
 @Entity
 @Table(name = "invites")
-public class InviteEntity {
+public class Invite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email", length = 60, nullable = false)
+    @Column(name = "email", length = 64, nullable = false)
     private String email;
 
-    @Column(name = "unique_identifier", length = 256, nullable = false)
+    @Column(name = "unique_identifier", length = 256, nullable = false, unique = true)
     private String uniqueIdentifier;
 
     @Builder.Default
@@ -34,13 +32,13 @@ public class InviteEntity {
     @Column(name = "date_of_expire_invite", nullable = false)
     private LocalDateTime dateOfExpireInvite;
 
-    @ManyToOne
-    @JoinColumn(name = "workspace_id", referencedColumnName = "id")
-    private WorkspaceEntity workspace;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "workspace_id", referencedColumnName = "id", nullable = false)
+    private Workspace workspace;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-    private RoleEntity role;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+    private Role role;
 
     public void setLinkLifeTime() {
         LocalDateTime dateTimeOfInvite = LocalDateTime.now();
