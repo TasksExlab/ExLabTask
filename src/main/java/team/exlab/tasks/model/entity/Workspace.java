@@ -20,14 +20,14 @@ public class Workspace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "workspace_name", length = 50, nullable = false)
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @Column(name = "desc_workspace", length = 500)
+    @Column(name = "description", length = 500)
     private String description;
 
     @Builder.Default
-    @ManyToMany(mappedBy = "workspaces", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "workspaces", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<User> users = new ArrayList<>();
 
     @Builder.Default

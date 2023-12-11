@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    username: test
+    password: test
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: puivan617
+    password: sliuhrnbiuqwxjwb
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+      protocol: smtp
+      test-connection: false
+
+token:
+  signing:
+    key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
+  lifetime: 1m

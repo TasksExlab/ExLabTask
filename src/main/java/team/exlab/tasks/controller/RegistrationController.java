@@ -67,7 +67,7 @@ public class RegistrationController {
     @Operation(summary = "Register new user",
             description = "Register new user, return JWT token")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = "201",
                     description = "Successful registration",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = JwtResponse.class))}

@@ -25,8 +25,7 @@ import team.exlab.tasks.service.validation.group.ValidationSequence;
 
 import java.util.List;
 
-import static team.exlab.tasks.util.UrlPathUtil.API;
-import static team.exlab.tasks.util.UrlPathUtil.WORKSPACES;
+import static team.exlab.tasks.util.UrlPathUtil.*;
 
 @RestController
 @RequestMapping(API + WORKSPACES)
@@ -56,7 +55,7 @@ public class WorkspaceController {
                     description = "Unexpected server error"
             )
     })
-    public ResponseEntity<List<WorkspaceDtoResponse>> getAll() {
+    public ResponseEntity<List<WorkspaceDtoResponse>> getAllWorkspaces() {
         var workspaces = workspaceService.getAll();
         if (workspaces.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -89,7 +88,7 @@ public class WorkspaceController {
                     description = "Unexpected server error"
             )
     })
-    public ResponseEntity<WorkspaceDtoResponse> create(
+    public ResponseEntity<WorkspaceDtoResponse> createWorkspace(
             @Validated(ValidationSequence.class) @RequestBody CreateWorkspaceDtoRequest workspaceDto
     ) {
         return new ResponseEntity<>(
@@ -112,6 +111,11 @@ public class WorkspaceController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ValidationErrorResponse.class))}
             ),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid id",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}
+            ),
             @ApiResponse(responseCode = "404",
                     description = "Workspace not found",
                     content = {@Content(mediaType = "application/json",
@@ -125,7 +129,7 @@ public class WorkspaceController {
             )
     })
     @PutMapping("/{id}")
-    public ResponseEntity<WorkspaceDtoResponse> update(
+    public ResponseEntity<WorkspaceDtoResponse> updateWorkspace(
             @PathVariable Long id,
             @Validated(ValidationSequence.class) @RequestBody UpdateWorkspaceDtoRequest request
     ) {
@@ -146,9 +150,9 @@ public class WorkspaceController {
                             schema = @Schema(implementation = WorkspaceDtoResponse.class))}
             ),
             @ApiResponse(responseCode = "400",
-                    description = "Invalid data",
+                    description = "Invalid id",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ValidationErrorResponse.class))}
+                            schema = @Schema(implementation = ApiError.class))}
             ),
             @ApiResponse(responseCode = "403",
                     description = "Not enough authorities"
@@ -180,6 +184,11 @@ public class WorkspaceController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = BaseResponse.class))}
             ),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid id",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}
+            ),
             @ApiResponse(responseCode = "403",
                     description = "Not enough authorities"
             ),
@@ -193,7 +202,7 @@ public class WorkspaceController {
             )
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<BaseResponse> delete(
+    public ResponseEntity<BaseResponse> deleteWorkspaceById(
             @PathVariable Long id
     ) {
         return new ResponseEntity<>(
@@ -212,7 +221,12 @@ public class WorkspaceController {
                             array = @ArraySchema(schema = @Schema(implementation = UserDtoResponse.class)))}
             ),
             @ApiResponse(responseCode = "204",
-                    description = "No workspaces found"
+                    description = "No users found"
+            ),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid id",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}
             ),
             @ApiResponse(responseCode = "403",
                     description = "Not enough authorities"
@@ -226,7 +240,7 @@ public class WorkspaceController {
                     description = "Unexpected server error"
             )
     })
-    @GetMapping("/{id}/users")
+    @GetMapping("/{id}" + USERS)
     public ResponseEntity<List<UserDtoResponse>> getAllUsersByWorkspaceId(
             @PathVariable Long id
     ) {

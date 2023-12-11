@@ -35,8 +35,7 @@ public class SecurityConfig {
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                API + LOGIN,
-                                API + ROLES
+                                API + LOGIN
                         ).permitAll()
                         .requestMatchers(
                                 antMatcher(API + REGISTRATION + "/**"),

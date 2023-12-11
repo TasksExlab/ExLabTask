@@ -5,12 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import team.exlab.tasks.service.exception.ApiError;
 import team.exlab.tasks.service.exception.BaseException;
 import team.exlab.tasks.service.validation.ValidationErrorResponse;
 import team.exlab.tasks.service.validation.Violation;
-
-import java.util.Objects;
 
 @RestControllerAdvice
 public class ErrorHandler {
@@ -25,6 +24,17 @@ public class ErrorHandler {
                 )).toList());
         return new ResponseEntity<>(
                 new ValidationErrorResponse(violations),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiError> onMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        return new ResponseEntity<>(
+                ApiError.builder()
+                        .errorCode("id.format.invalid")
+                        .description("Неверный формат идентификатора")
+                        .build(),
                 HttpStatus.BAD_REQUEST
         );
     }

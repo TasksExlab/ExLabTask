@@ -20,8 +20,7 @@ import team.exlab.tasks.service.validation.ValidationErrorResponse;
 
 import java.security.Principal;
 
-import static team.exlab.tasks.util.UrlPathUtil.ACCOUNT;
-import static team.exlab.tasks.util.UrlPathUtil.API;
+import static team.exlab.tasks.util.UrlPathUtil.*;
 
 @RestController
 @RequestMapping(API + ACCOUNT)
@@ -31,7 +30,7 @@ import static team.exlab.tasks.util.UrlPathUtil.API;
 public class UserController {
     private final IUserService userService;
 
-    @PatchMapping("/password")
+    @PatchMapping(CHANGE_PASSWORD)
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Change user password",
             description = "Change user password")

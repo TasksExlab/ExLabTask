@@ -19,8 +19,7 @@ import team.exlab.tasks.service.interfaces.IInviteService;
 import team.exlab.tasks.service.validation.ValidationErrorResponse;
 import team.exlab.tasks.service.validation.group.ValidationSequence;
 
-import static team.exlab.tasks.util.UrlPathUtil.API;
-import static team.exlab.tasks.util.UrlPathUtil.INVITE_SEND;
+import static team.exlab.tasks.util.UrlPathUtil.*;
 
 @RestController
 @RequestMapping(API)
@@ -30,7 +29,7 @@ import static team.exlab.tasks.util.UrlPathUtil.INVITE_SEND;
 public class InviteController {
     private final IInviteService inviteService;
 
-    @PostMapping(value = "workspaces/{id}" + INVITE_SEND)
+    @PostMapping(value = WORKSPACES + "/{id}" + INVITE_SEND)
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Invite new user",
             description = "Send invite on email to register in app")
