@@ -19,6 +19,7 @@ import team.exlab.tasks.service.dto.user.JwtResponse;
 import team.exlab.tasks.service.dto.user.LoginUserDtoRequest;
 import team.exlab.tasks.service.impl.AuthService;
 import team.exlab.tasks.service.validation.ValidationErrorResponse;
+import team.exlab.tasks.service.validation.group.ValidationSequence;
 
 import static team.exlab.tasks.util.UrlPathUtil.API;
 
@@ -49,7 +50,7 @@ public class AuthController {
             )
     })
     public ResponseEntity<JwtResponse> createAuthToken(
-            @Validated @RequestBody LoginUserDtoRequest logUserDto
+            @Validated(ValidationSequence.class) @RequestBody LoginUserDtoRequest logUserDto
     ) {
         return new ResponseEntity<>(
                 authService.createAuthToken(logUserDto),

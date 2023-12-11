@@ -18,6 +18,7 @@ import team.exlab.tasks.service.dto.user.JwtResponse;
 import team.exlab.tasks.service.exception.ApiError;
 import team.exlab.tasks.service.interfaces.IRegistrationService;
 import team.exlab.tasks.service.validation.ValidationErrorResponse;
+import team.exlab.tasks.service.validation.group.ValidationSequence;
 
 import static team.exlab.tasks.util.UrlPathUtil.API;
 import static team.exlab.tasks.util.UrlPathUtil.REGISTRATION;
@@ -92,7 +93,7 @@ public class RegistrationController {
     })
     public ResponseEntity<JwtResponse> createNewUser(
             @PathVariable String uniqueIdentifier,
-            @Validated @RequestBody CreateUserDtoRequest request
+            @Validated(ValidationSequence.class) @RequestBody CreateUserDtoRequest request
     ) {
         return new ResponseEntity<>(
                 registrationService.createNewUser(uniqueIdentifier, request),

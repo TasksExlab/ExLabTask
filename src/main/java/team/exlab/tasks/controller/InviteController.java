@@ -17,6 +17,7 @@ import team.exlab.tasks.service.dto.CreateInviteDtoRequest;
 import team.exlab.tasks.service.exception.ApiError;
 import team.exlab.tasks.service.interfaces.IInviteService;
 import team.exlab.tasks.service.validation.ValidationErrorResponse;
+import team.exlab.tasks.service.validation.group.ValidationSequence;
 
 import static team.exlab.tasks.util.UrlPathUtil.API;
 import static team.exlab.tasks.util.UrlPathUtil.INVITE_SEND;
@@ -58,7 +59,7 @@ public class InviteController {
     })
     public ResponseEntity<BaseResponse> sendInvite(
             @PathVariable Long id,
-            @Validated @RequestBody CreateInviteDtoRequest inviteDto
+            @Validated(ValidationSequence.class) @RequestBody CreateInviteDtoRequest inviteDto
     ) {
         return new ResponseEntity<>(
                 inviteService.sendInvite(id, inviteDto),

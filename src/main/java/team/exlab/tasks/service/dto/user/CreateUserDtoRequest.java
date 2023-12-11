@@ -6,41 +6,56 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import team.exlab.tasks.service.validation.group.DBValidationGroup;
+import team.exlab.tasks.service.validation.group.CommonValidationGroup;
 import team.exlab.tasks.service.validation.validator.annotation.RegPasswordsEqual;
 import team.exlab.tasks.service.validation.validator.annotation.UniqueEmail;
 
 @Data
 @NoArgsConstructor
-@RegPasswordsEqual(message = "Пароли не совпадают", fieldName = "passwordConfirm")
+@RegPasswordsEqual(message = "Пароли не совпадают",
+        fieldName = "passwordConfirm",
+        groups = CommonValidationGroup.class)
 public class CreateUserDtoRequest {
     @Pattern(regexp = "^[А-ЯA-Z][а-яёa-z]*$",
-            message = "Введите, пожалуйста, ваше имя")
-    @NotEmpty(message = "Поле обязательно для заполнения")
+            message = "Введите, пожалуйста, ваше имя",
+            groups = CommonValidationGroup.class)
+    @NotEmpty(message = "Поле обязательно для заполнения",
+            groups = CommonValidationGroup.class)
     private String name;
 
     @Pattern(regexp = "^[А-ЯA-Z][а-яёa-z]*$",
-            message = "Введите, пожалуйста, вашу фамилию")
-    @NotEmpty(message = "Поле обязательно для заполнения")
+            message = "Введите, пожалуйста, вашу фамилию",
+            groups = CommonValidationGroup.class)
+    @NotEmpty(message = "Поле обязательно для заполнения",
+            groups = CommonValidationGroup.class)
     private String surname;
 
-    @Email(message = "Введите, пожалуйста, адрес вашей электронной почты")
-    @UniqueEmail(message = "Пользователь с такими данными уже зарегистрирован")
-    @NotEmpty(message = "Поле обязательно для заполнения")
+    @Email(message = "Введите, пожалуйста, адрес вашей электронной почты",
+            groups = CommonValidationGroup.class)
+    @UniqueEmail(message = "Пользователь с такими данными уже зарегистрирован",
+            groups = DBValidationGroup.class)
+    @NotEmpty(message = "Поле обязательно для заполнения",
+            groups = CommonValidationGroup.class)
     private String email;
 
     @Pattern(regexp = ".{8,}",
-            message = "Недостаточная длина пароля. Пароль должен содержать не менее 8 символов")
+            message = "Недостаточная длина пароля. Пароль должен содержать не менее 8 символов",
+            groups = CommonValidationGroup.class)
     @Pattern(regexp = "[a-zA-Z0-9]+",
-            message = "Использование недопустимых знаков")
-    @NotEmpty(message = "Поле обязательно для заполнения")
+            message = "Использование недопустимых знаков",
+            groups = CommonValidationGroup.class)
+    @NotEmpty(message = "Поле обязательно для заполнения",
+            groups = CommonValidationGroup.class)
     private String password;
 
-    @NotEmpty(message = "Поле обязательно для заполнения")
+    @NotEmpty(message = "Поле обязательно для заполнения",
+            groups = CommonValidationGroup.class)
     private String passwordConfirm;
-    @AssertTrue(message = "Необходимо подтвердить согласие на обработку персональных данных")
+    @AssertTrue(message = "Необходимо подтвердить согласие на обработку персональных данных",
+            groups = CommonValidationGroup.class)
     private Boolean isUserAgreeToProcessPersonalData;
 
     @JsonCreator

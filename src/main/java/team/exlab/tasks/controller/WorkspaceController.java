@@ -21,6 +21,7 @@ import team.exlab.tasks.service.dto.workspace.WorkspaceDtoResponse;
 import team.exlab.tasks.service.exception.ApiError;
 import team.exlab.tasks.service.interfaces.IWorkspaceService;
 import team.exlab.tasks.service.validation.ValidationErrorResponse;
+import team.exlab.tasks.service.validation.group.ValidationSequence;
 
 import java.util.List;
 
@@ -89,7 +90,7 @@ public class WorkspaceController {
             )
     })
     public ResponseEntity<WorkspaceDtoResponse> create(
-            @Validated @RequestBody CreateWorkspaceDtoRequest workspaceDto
+            @Validated(ValidationSequence.class) @RequestBody CreateWorkspaceDtoRequest workspaceDto
     ) {
         return new ResponseEntity<>(
                 workspaceService.create(workspaceDto),
@@ -126,7 +127,7 @@ public class WorkspaceController {
     @PutMapping("/{id}")
     public ResponseEntity<WorkspaceDtoResponse> update(
             @PathVariable Long id,
-            @RequestBody UpdateWorkspaceDtoRequest request
+            @Validated(ValidationSequence.class) @RequestBody UpdateWorkspaceDtoRequest request
     ) {
         return new ResponseEntity<>(
                 workspaceService.update(id, request),
