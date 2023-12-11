@@ -11,7 +11,7 @@ import team.exlab.tasks.service.validation.validator.annotation.CorrectRole;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateInviteDto {
+public class CreateInviteDtoRequest {
     @CorrectRole(message = "Роль не найдена")
     private String roleName;
     @CorrectInviteEmail(message = "Ссылка уже была отправлена ранее этому пользователю")

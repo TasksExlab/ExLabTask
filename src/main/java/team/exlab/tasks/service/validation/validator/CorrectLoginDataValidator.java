@@ -8,13 +8,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import team.exlab.tasks.service.dto.user.LoginUserDtoRequest;
 import team.exlab.tasks.service.validation.validator.annotation.CorrectLoginData;
+import team.exlab.tasks.service.validation.validator.annotation.UpdatePasswordsEqual;
 
 public class CorrectLoginDataValidator implements ConstraintValidator<CorrectLoginData, LoginUserDtoRequest> {
     @Autowired
     private AuthenticationManager authenticationManager;
+    private String fieldName;
 
     @Override
-    public boolean isValid(LoginUserDtoRequest request, ConstraintValidatorContext constraintValidatorContext) {
+    public void initialize(CorrectLoginData constraintAnnotation) {
+            this.fieldName = constraintAnnotation.fieldName();
+    }
+
+    @Override
+    public boolean isValid(LoginUserDtoRequest request, ConstraintValidatorContext context) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -23,6 +30,10 @@ public class CorrectLoginDataValidator implements ConstraintValidator<CorrectLog
                     )
             );
         } catch (AuthenticationException e) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+                    .addPropertyNode(fieldName)
+                    .addConstraintViolation();
             return false;
         }
         return true;

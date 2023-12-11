@@ -10,10 +10,10 @@ import team.exlab.tasks.service.validation.validator.annotation.CorrectLoginData
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@CorrectLoginData(message = "Пользователя с такими данными не существует")
+@CorrectLoginData(message = "Пользователя с такими данными не существует", fieldName = "password")
 public class LoginUserDtoRequest {
-    @NotEmpty(message = "Заполните поле 'Электронная почта'")
     @CorrectEmail(message = "Неверный адрес электронной почты")
+    @NotEmpty(message = "Заполните поле 'Электронная почта'")
     private String email;
     @NotEmpty(message = "Введите пароль")
     private String password;

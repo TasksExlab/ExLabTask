@@ -10,7 +10,7 @@ import team.exlab.tasks.model.repository.InviteRepository;
 import team.exlab.tasks.model.repository.RoleRepository;
 import team.exlab.tasks.model.repository.WorkspaceRepository;
 import team.exlab.tasks.service.dto.BaseResponse;
-import team.exlab.tasks.service.dto.CreateInviteDto;
+import team.exlab.tasks.service.dto.CreateInviteDtoRequest;
 import team.exlab.tasks.service.exception.NotFoundException;
 import team.exlab.tasks.service.interfaces.IEmailService;
 import team.exlab.tasks.service.interfaces.IInviteService;
@@ -32,18 +32,18 @@ public class InviteService implements IInviteService {
 
     @Override
     @Transactional
-    public BaseResponse sendInvite(Long workspaceId, CreateInviteDto createInviteDto) {
+    public BaseResponse sendInvite(Long workspaceId, CreateInviteDtoRequest createInviteDtoRequest) {
         var workspace = workspaceRepository.findById(workspaceId)
                 .orElseThrow(() -> new NotFoundException(
                         "workspace.not.found",
                         String.format("Рабочее пространство (id = '%s') не найдено", workspaceId)
                 ));
 
-        Invite invite = inviteConverter.convertDtoToEntity(createInviteDto);
+        Invite invite = inviteConverter.convertDtoToEntity(createInviteDtoRequest);
         invite.setLinkLifeTime();
         invite.setInviteUniqueIdentifier();
         invite.setWorkspace(workspace);
-        invite.setRole(roleRepository.findByRole(UserRole.find(createInviteDto.getRoleName()).get()).get());
+        invite.setRole(roleRepository.findByRole(UserRole.find(createInviteDtoRequest.getRoleName()).get()).get());
 
         String inviteUrl = "http://localhost:8080/api/v1/registration/" + invite.getUniqueIdentifier();
         String htmlBody = MailTemplate.buildEmail(inviteUrl);
@@ -59,7 +59,7 @@ public class InviteService implements IInviteService {
 
             return new BaseResponse(
                     String.format("Приглашение для пользователя (email = '%s') успешно отправлено!",
-                            createInviteDto.getEmail())
+                            createInviteDtoRequest.getEmail())
             );
         } catch (MessagingException | IOException e) {
             throw new RuntimeException(e);

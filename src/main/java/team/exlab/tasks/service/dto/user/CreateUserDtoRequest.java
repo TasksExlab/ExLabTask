@@ -14,7 +14,7 @@ import team.exlab.tasks.service.validation.validator.annotation.UniqueEmail;
 
 @Data
 @NoArgsConstructor
-@RegPasswordsEqual(message = "Пароли не совпадают")
+@RegPasswordsEqual(message = "Пароли не совпадают", fieldName = "passwordConfirm")
 public class CreateUserDtoRequest {
     @Pattern(regexp = "^[А-ЯA-Z][а-яёa-z]*$",
             message = "Введите, пожалуйста, ваше имя")
@@ -27,8 +27,8 @@ public class CreateUserDtoRequest {
     private String surname;
 
     @Email(message = "Введите, пожалуйста, адрес вашей электронной почты")
-    @NotEmpty(message = "Поле обязательно для заполнения")
     @UniqueEmail(message = "Пользователь с такими данными уже зарегистрирован")
+    @NotEmpty(message = "Поле обязательно для заполнения")
     private String email;
 
     @Pattern(regexp = ".{8,}",

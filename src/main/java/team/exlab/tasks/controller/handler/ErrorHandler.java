@@ -23,14 +23,6 @@ public class ErrorHandler {
                         error.getField(),
                         error.getDefaultMessage()
                 )).toList());
-
-        if (bindingResult.hasGlobalErrors()) {
-            violations.add(new Violation(
-                            "object",
-                            Objects.requireNonNull(bindingResult.getGlobalError()).getDefaultMessage()
-                    )
-            );
-        }
         return new ResponseEntity<>(
                 new ValidationErrorResponse(violations),
                 HttpStatus.BAD_REQUEST

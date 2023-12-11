@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UpdatePasswordsEqualValidator.class)
 public @interface UpdatePasswordsEqual {
     String message();
-
+    String fieldName();
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};

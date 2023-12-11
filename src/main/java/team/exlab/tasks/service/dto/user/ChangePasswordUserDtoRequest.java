@@ -10,7 +10,7 @@ import team.exlab.tasks.service.validation.validator.annotation.UpdatePasswordsE
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@UpdatePasswordsEqual(message = "Пароли не совпадают")
+@UpdatePasswordsEqual(message = "Пароли не совпадают", fieldName = "passwordConfirm")
 public class ChangePasswordUserDtoRequest {
     @Pattern(regexp = ".{8,}",
             message = "Недостаточная длина пароля. Пароль должен содержать не менее 8 символов")

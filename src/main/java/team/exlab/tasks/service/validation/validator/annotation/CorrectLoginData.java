@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = CorrectLoginDataValidator.class)
 public @interface CorrectLoginData {
     String message();
+    String fieldName();
 
     Class<?>[] groups() default {};
 

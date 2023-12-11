@@ -1,7 +1,6 @@
 package team.exlab.tasks.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,11 +10,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.exlab.tasks.service.dto.BaseResponse;
-import team.exlab.tasks.service.dto.CreateInviteDto;
+import team.exlab.tasks.service.dto.CreateInviteDtoRequest;
 import team.exlab.tasks.service.exception.ApiError;
 import team.exlab.tasks.service.interfaces.IInviteService;
 import team.exlab.tasks.service.validation.ValidationErrorResponse;
@@ -60,7 +58,7 @@ public class InviteController {
     })
     public ResponseEntity<BaseResponse> sendInvite(
             @PathVariable Long id,
-            @Validated @RequestBody CreateInviteDto inviteDto
+            @Validated @RequestBody CreateInviteDtoRequest inviteDto
     ) {
         return new ResponseEntity<>(
                 inviteService.sendInvite(id, inviteDto),

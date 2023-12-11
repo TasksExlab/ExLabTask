@@ -7,9 +7,22 @@ import team.exlab.tasks.service.validation.validator.annotation.UpdatePasswordsE
 
 public class UpdatePasswordsEqualValidator
         implements ConstraintValidator<UpdatePasswordsEqual, ChangePasswordUserDtoRequest> {
+    private String fieldName;
 
     @Override
-    public boolean isValid(ChangePasswordUserDtoRequest request, ConstraintValidatorContext constraintValidatorContext) {
-        return request.getPassword().equals(request.getPasswordConfirm());
+    public void initialize(UpdatePasswordsEqual constraintAnnotation) {
+        this.fieldName = constraintAnnotation.fieldName();
+    }
+
+    @Override
+    public boolean isValid(ChangePasswordUserDtoRequest request, ConstraintValidatorContext context) {
+        var result = request.getPassword().equals(request.getPasswordConfirm());
+        if (!result) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+                    .addPropertyNode(fieldName)
+                    .addConstraintViolation();
+        }
+        return result;
     }
 }

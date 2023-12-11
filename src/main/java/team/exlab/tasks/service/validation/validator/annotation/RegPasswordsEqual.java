@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = RegPasswordsEqualValidator.class)
 public @interface RegPasswordsEqual {
     String message();
+    String fieldName();
 
     Class<?>[] groups() default {};
 

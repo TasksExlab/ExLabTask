@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 
 token:
   signing:
@@ -7,6 +7,9 @@ token:
   lifetime: 1m
 
 spring:
+  output:
+    ansi:
+      enabled: always
   datasource:
     url: jdbc:postgresql://localhost:5432/exlab_tasks_db
     username: postgres
@@ -17,6 +20,7 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create
       naming:
@@ -26,7 +30,6 @@ spring:
     port: 587
     username: puivan617
     password: sliuhrnbiuqwxjwb
-    tls: true
     properties:
       mail:
         smtp:
