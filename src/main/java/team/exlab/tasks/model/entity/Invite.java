@@ -32,7 +32,7 @@ public class Invite {
     @Column(name = "date_of_expire_invite", nullable = false)
     private LocalDateTime dateOfExpireInvite;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "workspace_id", referencedColumnName = "id", nullable = false)
     private Workspace workspace;
 
