@@ -24,9 +24,12 @@ public class MessagesConstants {
 
     public static final String IS_NO_SUCH_INVITATION = "Нет такого приглашения";
 
-    public static final String SUCCESSFUL_REGISTRATION = "Поздравляем, Вы успешно зарегистрировались!";
-
     public static final String PASSWORD_DONT_MATCH = "Пароли не совпадают";
 
     public static final String USER_WITH_THIS_EMAIL_OR_UNIQUE_ID_NOT_FOUND = "Пользователь с таким email или ID не найден";
+
+
+    public static final String SUCCESSFUL_REGISTRATION = "Поздравляем, Вы успешно зарегистрировались!";
+    public static final String SUCCESSFUL_CHANGE_PASSWORD = "Пароль успешно изменен!";
+    public static final String SUCCESSFUL_DELETE_WORKSPACE = "Рабочее пространство успешно удалено";
 }
