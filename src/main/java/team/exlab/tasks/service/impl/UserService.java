@@ -8,7 +8,6 @@ import team.exlab.tasks.service.dto.BaseResponse;
 import team.exlab.tasks.service.dto.user.ChangePasswordUserDtoRequest;
 import team.exlab.tasks.service.dto.user.UserDtoResponse;
 import team.exlab.tasks.service.interfaces.IUserService;
-import team.exlab.tasks.service.interfaces.IUserValidationService;
 import team.exlab.tasks.service.mapper.UserConverter;
 import team.exlab.tasks.util.MessagesConstants;
 

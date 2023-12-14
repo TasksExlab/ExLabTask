@@ -21,6 +21,7 @@ import team.exlab.tasks.controller.filter.JwtAuthenticationFilter;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 import static team.exlab.tasks.util.UrlPathUtil.*;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

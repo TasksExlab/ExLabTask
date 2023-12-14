@@ -12,7 +12,6 @@ import team.exlab.tasks.service.dto.workspace.UpdateWorkspaceDtoRequest;
 import team.exlab.tasks.service.dto.workspace.WorkspaceDtoResponse;
 import team.exlab.tasks.service.exception.NotFoundException;
 import team.exlab.tasks.service.interfaces.IWorkspaceService;
-import team.exlab.tasks.service.interfaces.IWorkspaceValidationService;
 import team.exlab.tasks.service.mapper.UserConverter;
 import team.exlab.tasks.service.mapper.WorkspaceConverter;
 

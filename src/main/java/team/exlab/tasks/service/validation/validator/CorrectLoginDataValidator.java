@@ -8,7 +8,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import team.exlab.tasks.service.dto.user.LoginUserDtoRequest;
 import team.exlab.tasks.service.validation.validator.annotation.CorrectLoginData;
-import team.exlab.tasks.service.validation.validator.annotation.UpdatePasswordsEqual;
 
 public class CorrectLoginDataValidator implements ConstraintValidator<CorrectLoginData, LoginUserDtoRequest> {
     @Autowired
@@ -17,7 +16,7 @@ public class CorrectLoginDataValidator implements ConstraintValidator<CorrectLog
 
     @Override
     public void initialize(CorrectLoginData constraintAnnotation) {
-            this.fieldName = constraintAnnotation.fieldName();
+        this.fieldName = constraintAnnotation.fieldName();
     }
 
     @Override

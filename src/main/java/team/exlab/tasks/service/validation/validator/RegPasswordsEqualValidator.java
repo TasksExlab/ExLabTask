@@ -4,7 +4,6 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import team.exlab.tasks.service.dto.user.CreateUserDtoRequest;
 import team.exlab.tasks.service.validation.validator.annotation.RegPasswordsEqual;
-import team.exlab.tasks.service.validation.validator.annotation.UpdatePasswordsEqual;
 
 public class RegPasswordsEqualValidator
         implements ConstraintValidator<RegPasswordsEqual, CreateUserDtoRequest> {
@@ -12,7 +11,7 @@ public class RegPasswordsEqualValidator
 
     @Override
     public void initialize(RegPasswordsEqual constraintAnnotation) {
-            this.fieldName = constraintAnnotation.fieldName();
+        this.fieldName = constraintAnnotation.fieldName();
     }
 
     @Override

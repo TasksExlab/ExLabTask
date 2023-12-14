@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public abstract class BaseException extends RuntimeException {
-    ApiError apiError;
-    HttpStatus httpStatus;
+    private ApiError apiError;
+    private HttpStatus httpStatus;
 
     public BaseException(ApiError apiError, HttpStatus httpStatus) {
         super(apiError.getDescription());

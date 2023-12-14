@@ -2,7 +2,6 @@ package team.exlab.tasks.service.validation.validator.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import team.exlab.tasks.service.validation.validator.UniqueEmailValidator;
 import team.exlab.tasks.service.validation.validator.UniqueWorkspaceNameValidator;
 
 import java.lang.annotation.ElementType;

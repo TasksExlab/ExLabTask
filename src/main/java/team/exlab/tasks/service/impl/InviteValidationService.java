@@ -3,7 +3,6 @@ package team.exlab.tasks.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import team.exlab.tasks.model.repository.InviteRepository;
-import team.exlab.tasks.model.repository.UserRepository;
 import team.exlab.tasks.service.exception.BadRequestException;
 import team.exlab.tasks.service.interfaces.IInviteValidationService;
 

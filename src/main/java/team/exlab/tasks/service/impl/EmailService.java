@@ -12,8 +12,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import team.exlab.tasks.service.interfaces.IEmailService;
 
-import java.io.IOException;
-
 import static team.exlab.tasks.util.EmailUtil.NOREPLY_ADDRESS;
 
 @Service
